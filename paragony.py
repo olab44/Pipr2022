@@ -28,12 +28,14 @@ receipt= [
 # receipt.append(get_product())
 # receipt.append(get_product())
 
-for element in receipt:
-    print_description(element[0], element[1])
+# for element in receipt:
+#     print_description(element[0], element[1])
 
 def get_total_price():
-    for price in receipt:
-        price=price+receipt[price]
-        return price
+    total_price = 0
+    for element in receipt:
+        total_price=total_price+element[1]
+    return f'total price is {total_price//100} zł {total_price%100} gr'
+        
 
-print(get_total_price)
+print(get_total_price())
