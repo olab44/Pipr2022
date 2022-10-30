@@ -21,21 +21,24 @@ def get_product():
 product = get_product()
 # print_description(product[0], product[1])
 
-receipt= [
-    ('apples', 233), ('bananas', 499), ('oranges', 802), ('milk', 312)
-]
-# receipt.append(get_product())
-# receipt.append(get_product())
-# receipt.append(get_product())
-
 # for element in receipt:
 #     print_description(element[0], element[1])
 
-def get_total_price():
+def get_total_price(receipt):
     total_price = 0
-    for element in receipt:
-        total_price=total_price+element[1]
-    return f'total price is {total_price//100} zł {total_price%100} gr'
-        
+    for name,price in receipt:
+        total_price+=price
+    return total_price
 
-print(get_total_price())
+def format_price(price):
+    zl, gr =split_price(price)
+    return f'{zl}.{gr}'
+        
+my_receipt= [
+    ('apples', 233), 
+    ('bananas', 499), 
+    ('oranges', 802), 
+    ('milk', 312)
+]
+my_total_value = get_total_price(my_receipt)
+print(format_price(my_total_value))
