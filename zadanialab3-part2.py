@@ -31,8 +31,8 @@ def random_word_frequency(phrase, amount_of_krotki):
     for krotka in amount_of_krotki:
         letter, amount = krotka
         for word in words:
-                amount_letters = counter(word)
-                if letter not in amount_letters or amount_letters[letter] < amount:
+                letters = counter(word)
+                if letter not in letters or letters[letter] < amount:
                     pass
                 else:
                     words.remove(word)
@@ -40,4 +40,3 @@ def random_word_frequency(phrase, amount_of_krotki):
 
 
 print(random_word_frequency("I literally can't deal with this drama right now.", [("a", 2), ("l", 3)]))
-
