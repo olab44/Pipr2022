@@ -10,6 +10,7 @@ def get_tax_group(name):
     else:
         return 'E'
 
+
 tax_groupA = {'milk', 'bread'}
 tax_groupB = {'fruits', 'vegetables'}
 tax_groupC = {'water', 'juice'}
