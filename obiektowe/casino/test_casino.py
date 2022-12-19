@@ -1,4 +1,4 @@
-from casino import Casino, Player
+from casino import Casino, Player, EmptyNameError
 import pytest
 
 
@@ -10,7 +10,7 @@ def test_player_create():
 
 
 def test_player_create_empty_name():
-    with pytest.raises(ValueError):
+    with pytest.raises(EmptyNameError):
         Player('')
 
 
@@ -50,7 +50,15 @@ def test_throw_dice_different_numbers(monkeypatch):
     assert casino.throw_dice() == [3, 4, 5, 6]
 
 
-def test_game_easy_version(monkeypatch):
+def test_throw_dice_different():
+    # checking if throw_dice returns list of four items, each in range <1, 6>
+    casino = Casino([Player('john')])
+    assert len(casino.throw_dice()) == 4
+    for item in casino.throw_dice():
+        assert casino.throw_dice()[0] in range(1, 7)
+
+
+def test_game(monkeypatch):
     def fours(a):
         return [3, 3, 3, 6]
     casino = Casino([Player('john'), Player('jane'), Player('mark')])
@@ -69,7 +77,7 @@ def test_game_harder_version(monkeypatch):
         return [6, 6, 2, 4]
 
     casino = Casino([Player('john'), Player('jane'), Player('mark')])
-    # monkeypatch.setattr('casino.Casino.throw_dice', fours)
+    # monkeypatch.setattr('casino.Casino.game', [])
     assert casino.game() == [('john', 12), ('jane', 18), ('mark', 10)]
 
 
@@ -83,7 +91,7 @@ def test_game_results_with_winner(monkeypatch):
 
 def test_game_results_draw(monkeypatch):
     def this_game(a):
-        return [('john', 10), ('jane', 10), ('mark', 8)]
+        return [('john', 8), ('jane', 10), ('mark', 10)]
     casino = Casino([Player('john'), Player('jane'), Player('mark')])
     monkeypatch.setattr('casino.Casino.game', this_game)
     assert casino.result_of_game() == 'the game is unresolved'

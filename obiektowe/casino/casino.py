@@ -1,6 +1,10 @@
 from random import randint
 
 
+class EmptyNameError(Exception):
+    pass
+
+
 class Casino:
     def __init__(self, list_of_players=None):
         '''class Casino. contains attribute:
@@ -46,7 +50,6 @@ class Casino:
             player.dices = self.throw_dice()
             pair = player.name, player.result
             results.append(pair)
-        # return sorted(results, key=lambda results: results[1], reverse=True)
         return results
 
     def result_of_game(self):
@@ -75,7 +78,7 @@ class Player:
     '''
     def __init__(self, name, dices=None, result=0):
         if not name:
-            raise ValueError('name cannot be empty')
+            raise EmptyNameError('name cannot be empty')
         if not dices:
             dices = []
         self.name = name
@@ -112,6 +115,8 @@ class Player:
             result_6 = c * 2
             possible_results.append(result_6)
         else:
-            possible_results.append(0)
+            result_7 = max(self.dices)
+            possible_results.append(result_7)
+            # if there is nothing, the result equals to the max number on dices
         self._result = max(possible_results)
         return self._result
