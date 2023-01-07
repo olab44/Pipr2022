@@ -1,5 +1,6 @@
 import requests
-from getting_lyrics import read_from_lyrics
+from word import Word
+# from getting_lyrics import read_from_lyrics
 
 
 def get_adjective(noun):
@@ -18,20 +19,5 @@ def add_adj_to_noun(noun):
     return ' '.join(pair)
 
 
-# def adding_adjective():
-#     base = read_from_lyrics()
-#     paraphrased = []
-#     for word in base:
-#         if len(word) > 3:
-#             pair = add_adj_to_noun(word)
-#             paraphrased.append(pair)
-#             if not pair:
-#                 paraphrased.append(word)
-#         else:
-#             paraphrased.append(word)
-#     return paraphrased
-
-
-# print(adding_adjective())
-# print(get_adjective('ice'))
+print(get_adjective('ice'))
 print(add_adj_to_noun('ice'))

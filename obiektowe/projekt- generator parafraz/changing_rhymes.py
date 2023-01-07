@@ -21,5 +21,5 @@ def switch_rhyme(word):
 
 word = Word('go')
 # print(get_rhyming_words('go'))
-print(choose_rhyming_word('go'))
-print(switch_rhyme('go'))
+# print(choose_rhyming_word('go'))
+# print(switch_rhyme('go'))

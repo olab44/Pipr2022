@@ -1,4 +1,4 @@
-from synonims import get_synonims, choose_synonim, switch_synonims
+from changing_synonims import get_synonims, choose_synonim, switch_synonims
 from word import Word
 
 
