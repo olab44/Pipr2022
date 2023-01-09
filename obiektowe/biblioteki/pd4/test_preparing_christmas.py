@@ -30,7 +30,7 @@ def test_read_from_file_brav():
 
 def test_time_for_naughty():
     factory = Factory('naughty_kids.txt', 'brav_kids.txt', 4)
-    assert factory.time_of_work_naughty() == 52.5
+    assert factory.time_for_naughty(7, 4) == 1
 
 
 def test_presents_fot_naughty():
@@ -38,21 +38,44 @@ def test_presents_fot_naughty():
     assert factory.presents_for_naughty() == 7
 
 
-def test_presents_fot_brav():
+def test_presents_for_brav():
     factory = Factory('naughty_kids.txt', 'brav_kids.txt', 40)
     assert factory.presents_for_brav() == 12
 
 
 def test_time_for_brav_optimistic():
     factory = Factory('naughty_kids.txt', 'brav_kids.txt', 40)
-    assert factory.time_of_work_brav() == 60
+    assert factory.time_for_brav(12, 40) == 1
 
 
 def test_time_for_brav_typical():
     factory = Factory('naughty_kids.txt', 'brav_kids.txt', 4)
-    assert factory.time_of_work_brav() == 360
+    assert factory.time_for_brav(12, 4) == 6
 
 
-def test_count_total_time():
+def test_count_total_time_np():
     factory = Factory('naughty_kids.txt', 'brav_kids.txt', 5)
-    assert factory.count_total_time() == 412.5
+    assert factory.count_total_time() == 6
+
+
+def test_count_total_time_np_2():
+    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 5)
+    assert factory.count_total_time() == 5.5
+
+
+def test_count_total_time_np_3():
+    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 101)
+    assert factory.count_total_time_odd() == 1
+
+
+def test_count_total_time_parz():
+    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 6)
+    assert factory.count_total_time_even() == 3.5
+
+
+def test_free_elves():
+    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 8)
+    assert factory.free_elves(7, 7) == 4
+    assert factory.free_elves(7, 5) == 2
+    assert factory.free_elves(10, 13) == 4
+    assert factory.free_elves(10, 12) == 4

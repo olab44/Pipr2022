@@ -1,6 +1,10 @@
+import math
+import argparse
+import sys
 
-def main(naughty_kids, brav_kids, elves, elfs_on_L4):
-    pass
+
+def main(arguments):
+    parser = argparse.ArgumentParser()
 
 
 def read_from_file(file_handle):
@@ -28,44 +32,70 @@ class Factory:
     def total_presents(self):
         return self.presents_for_brav() + self.presents_for_naughty()
 
-    def time_of_work_naughty(self):
-        presents_for_naughty = self.presents_for_naughty()
-        time_in_minutes = (30 * presents_for_naughty) / self._working_elves
-        # time_in_hours_brav = presents_for_naughty / working_elves * 2
-        return max(time_in_minutes, 30)
+    def count_total_time_odd(self):
+        if self._working_elves % 2 == 1:
+            to_do_p = self.presents_for_brav()
+            to_do_r = self.presents_for_naughty()
+            presents = self.time_for_brav(to_do_p, self._working_elves)
+            naughty_simul = presents * 2 + 2 * self.free_elves(to_do_p, self._working_elves - 1)
+            left_n = max(0, to_do_r - naughty_simul)
+            naughty_left = self.time_for_naughty(left_n, self._working_elves)
+        return presents + naughty_left
 
-    def time_of_work_brav(self):
-        presents_for_brav = self.presents_for_brav()
-        time_in_minutes = presents_for_brav / (self._working_elves // 2) * 60
-        return max(time_in_minutes, 60)
+    def count_total_time_even(self):
+        if self._working_elves % 2 == 0:
+            to_do_p = self.presents_for_brav()
+            to_do_r = self.presents_for_naughty()
+            presents = self.time_for_brav(to_do_p, self._working_elves)
+            naughty_simul = 2 * self.free_elves(to_do_p, self._working_elves - 1)
+            left_n = max(0, to_do_r - naughty_simul)
+            naughty_left = self.time_for_naughty(left_n, self._working_elves)
+            return presents + naughty_left
 
-    # def count_total_time(self):
-    #     # first delegate elves for brav kids
-    #     # see if there are any elves left
-    #     # total_time_in_min = 0
-    #     if self._working_elves % 2 == 0:
-    #         total_time_in_minutes = self.time_of_work_brav() + self.time_of_work_naughty()
-    # #     # return total_time_in_minutes
+    def rounding_time(self, time):
+        fractorial = time - int(time)
+        if fractorial <= 0.5:
+            time = int(time) + 0.5
+        if fractorial > 0.5:
+            time = math.ceil(time)
+        return time
 
-    # def time_for_naughty(self, elves):
-    #     time = (30 * self.presents_for_naughty()) / elves
-    #     return max(30, time)
+    def free_elves(self, presents, elves):
+        '''
+        sometimes only some of the elves are working during last hour (when making presents only),
+        here we count how many elves do not work, arguments are only even numbers (elves)
+        '''
+        last_hour_working_pairs = presents % int(elves * 0.5)
+        if elves % 2 == 1:
+            free_elves = elves - last_hour_working_pairs * 2 - 1
+        else:
+            free_elves = elves - last_hour_working_pairs * 2
+        return free_elves
 
-    # def time_for_brav(self, presents, elves):
-    #     time = presents / (elves // 2) * 60
-    #     return max(60, time)
+    def time_for_naughty(self, presents, elves):
+        if presents == 0:
+            return 0
+        time = (0.5 * presents) / elves
+        rounded_time = self.rounding_time(time)
+        return max(0.5, rounded_time)
 
-    # def total_time(self):
-    #     if self._working_elves % 2 == 1:
-    #         time_for_brav = self.time_of_work_brav()
-    #         if time_for_brav() >= self.time_for_naughty(1):
+    def time_for_brav(self, presents, elves):
+        if presents == 0:
+            return 0
+        time = math.ceil(presents / (elves // 2))
+        return max(1, time)
 
 
 
+# def main(arguments):
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('--list-stations', nargs='?', const=' ')
+#     parser.add_argument('--list-sensors'
 
-print(read_from_file('naughty_kids.txt'))
-print(read_from_file('brav_kids.txt'))
+
+# print(read_from_file('naughty_kids.txt'))
+# print(read_from_file('brav_kids.txt'))
 
 
 if __name__ == '__main__':
-    pass
+    main(sys.argv)
