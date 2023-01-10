@@ -1,88 +1,91 @@
-from preparing_christmas import Factory, read_from_file, FormatTime
+from preparing_christmas import Village, read_from_file, FormatTime
+import pytest
 
 
 def test_create_class():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 40)
-    assert factory._elves == 40
-    assert factory._elves_on_l4 == 0
-    assert factory._working_elves == 40
-    assert factory._file_brav_kids == 'brav_kids.txt'
-    assert factory._file_naughty_kids == 'naughty_kids.txt'
+    village = Village(10, 20, 40)
+    assert village._elves == 40
+    assert village._elves_on_l4 == 0
+    assert village._working_elves == 40
+    assert village._am_presents == 20
+    assert village._am_sticks == 10
 
 
-def test_read_from_file_naughty():
-    naughty_kids = 'naughty_kids.txt'
-    list_naughty = ['Lena Mason\n', 'Ross Fisher\n', 'Gregory Curtis\n',
-                    'Jadon Schaefer\n', 'Alessandra Lara\n', 'Liam Cain\n',
-                    'Chana Rocha\n']
-
-    assert read_from_file(naughty_kids) == list_naughty
-
-
-def test_read_from_file_brav():
-    brav_kids = 'brav_kids.txt'
-    list_brav = ['Sidney Oneal\n', 'Jorden Larsen\n', 'Mikayla Pierce\n',
-                 'Simeon Roy\n', 'Kassandra Ferguson\n', 'Rylee Chang\n',
-                 'Nick Wiggins\n', 'Hassan Mcconnell\n', 'Eden Harmon\n',
-                 'Iyana Henderson\n', 'Johnathon Lutz\n', 'Laurel Savage\n']
-    assert read_from_file(brav_kids) == list_brav
+def test_village_error():
+    with pytest.raises(ValueError):
+        Village(10, 20, 40, 39)
 
 
 def test_time_for_naughty():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 4)
-    assert factory.time_for_naughty(7, 4) == 1
+    village = Village(4, 4, 4)
+    assert village.time_for_sticks(7, 4) == 1
 
 
-def test_presents_fot_naughty():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 40)
-    assert factory.presents_for_naughty() == 7
+def test_time_for_naughty_long():
+    village = Village(4, 7, 40)
+    assert village.time_for_sticks(28, 2) == 7
 
 
-def test_presents_for_brav():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 40)
-    assert factory.presents_for_brav() == 12
+def test_time_for_presents():
+    village = Village(4, 7, 40)
+    assert village.time_for_presents(12, 5) == 6
 
 
-def test_time_for_brav_optimistic():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 40)
-    assert factory.time_for_brav(12, 40) == 1
+def test_time_for_presents_optimistic():
+    village = Village(4, 7, 40)
+    assert village.time_for_presents(10, 40) == 1
 
 
-def test_time_for_brav_typical():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 4)
-    assert factory.time_for_brav(12, 4) == 6
+def test_count_total_time_odd():
+    village = Village(4, 7, 5)
+    assert village.count_total_time_odd() == 4
 
 
-def test_count_total_time_np():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 5)
-    assert factory.count_total_time() == 6
+def test_count_total_time_odd_optimistic():
+    village = Village(4, 7, 101)
+    assert village.count_total_time_odd() == 1
 
 
-def test_count_total_time_np_2():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 5)
-    assert factory.count_total_time() == 5.5
+def test_count_total_time_even():
+    village = Village(8, 7, 6)
+    assert village.count_total_time_even() == 3
 
 
-def test_count_total_time_np_3():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 101)
-    assert factory.count_total_time_odd() == 1
+def test_count_total_time_even_2():
+    village = Village(13, 7, 4)
+    assert village.count_total_time_even() == 5.5
 
 
-def test_count_total_time_parz():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 6)
-    assert factory.count_total_time_even() == 3.5
+def test_count_total_time():
+    village = Village(13, 7, 10)
+    assert village.count_total_time_even() == 2.5
 
 
 def test_free_elves():
-    factory = Factory('naughty_kids.txt', 'brav_kids.txt', 8)
-    assert factory.free_elves(7, 7) == 4
-    assert factory.free_elves(7, 5) == 2
-    assert factory.free_elves(10, 13) == 4
-    assert factory.free_elves(10, 12) == 4
+    village = Village(3, 6, 8)
+    assert village.free_elves(7, 7) == 4
+    assert village.free_elves(7, 5) == 2
+    assert village.free_elves(10, 13) == 4
+    assert village.free_elves(10, 12) == 4
+    assert village.free_elves(7, 6) == 4
 
 
-def test_format_time():
+def test_format_time_int():
     time = FormatTime(540)
     assert time.days() == 22
     assert time.hours() == 12
     assert time.minutes() == 0
+
+
+def test_format_time_fractorial():
+    time = FormatTime(5.5)
+    assert time.days() == 0
+    assert time.hours() == 5
+    assert time.minutes() == 30
+
+
+def test_format_time_str():
+    time = FormatTime(540)
+    assert time.__str__() == '22 days, 12 hours and 0 minutes'
+
+
