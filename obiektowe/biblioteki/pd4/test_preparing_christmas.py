@@ -1,4 +1,4 @@
-from preparing_christmas import Factory, read_from_file
+from preparing_christmas import Factory, read_from_file, FormatTime
 
 
 def test_create_class():
@@ -79,3 +79,10 @@ def test_free_elves():
     assert factory.free_elves(7, 5) == 2
     assert factory.free_elves(10, 13) == 4
     assert factory.free_elves(10, 12) == 4
+
+
+def test_format_time():
+    time = FormatTime(540)
+    assert time.days() == 22
+    assert time.hours() == 12
+    assert time.minutes() == 0
