@@ -56,5 +56,5 @@ def write_to_lyrics_json(title, author, file_handle):
 
 
 # print(get_poetry('To my mother', 'Edgar Allan Poe'))
-# print(write_to_lyrics_json('To my mother', 'Edgar Allan Poe', 'saved_lyrics.txt'))
+print(write_to_lyrics_json('Ozymandias', 'Percy Bysshe Shelley', 'saved_lyrics.txt'))
 # print(read_from_lyrics())

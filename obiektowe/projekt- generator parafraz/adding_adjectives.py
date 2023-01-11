@@ -19,5 +19,5 @@ def add_adj_to_noun(noun):
     return ' '.join(pair)
 
 
-print(get_adjective('ice'))
-print(add_adj_to_noun('ice'))
+# print(get_adjective('ice'))
+# print(add_adj_to_noun('ice'))

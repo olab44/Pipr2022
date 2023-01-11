@@ -4,6 +4,8 @@ from word import Word
 
 def get_synonims(word):
     all_synonims = requests.get(f'https://api.datamuse.com/words?ml={word}').json()
+    if len(all_synonims) == 0:
+        return []
     return all_synonims[:10]
 
 
@@ -30,13 +32,10 @@ class Synonim:
 
 
 def choose_and_switch_synonims(word):
-    synonim = get_synonims(word)[0]
-    if not synonim:
+    synonim = get_synonims(word)
+    if len(synonim) == 0:
         return word
-    else:
-        return synonim['word']
-        # return syn.name()
-
+    return synonim[0]['word']
 
 # def switch_synonims(word):
 #     synonim = Synonim(word)
@@ -44,5 +43,6 @@ def choose_and_switch_synonims(word):
 
 
 # print(get_synonims('devil'))
-print(choose_and_switch_synonims('devil'))
-# print(switch_synonims('big'))
+# print(choose_and_switch_synonims('devil'))
+# print(choose_and_switch_synonims('fnsnveiubv'))
+# # print(switch_synonims('big'))
