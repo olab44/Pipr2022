@@ -44,8 +44,3 @@ def write_to_lyrics(title, author, file_handle):
         for verse in data.lines():
             line = f'{verse}\n'
             file_handle.write(line)
-
-
-# print(get_poetry('To my mother', 'Edgar Allan Poe'))
-# print(write_to_lyrics('Sonnet 2: When forty winters shall besiege thy brow', 'William Shakespeare', 'saved_lyrics.txt'))
-# print(read_from_lyrics())
